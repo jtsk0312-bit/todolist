@@ -1,26 +1,48 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *, .dark, .dark *));
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+body {
+  background: #f3ede2;
+  color: #2d3748;
+  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+[data-theme="dark"] body,
+html.dark body {
+  background: #181614 !important;
+  color: #ededed !important;
+}
+
+@keyframes stickOn {
+  0% {
+    opacity: 0;
+    transform: scale(1.35) rotate(-10deg) translateY(-30px);
+    box-shadow: 0 25px 35px -5px rgba(0, 0, 0, 0.35);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(0.97) rotate(2deg) translateY(4px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+  }
+  80% {
+    transform: scale(1.02) rotate(-1deg) translateY(-2px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(var(--postit-rot, 0deg)) translateY(0);
+    box-shadow: 2px 8px 16px -2px rgba(0, 0, 0, 0.12), 0 3px 6px -1px rgba(0, 0, 0, 0.08);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.animate-stick-on {
+  animation: stickOn 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
+
