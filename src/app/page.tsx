@@ -467,19 +467,18 @@ export default function Home() {
           <button
             onClick={toggleTheme}
             aria-label={isDarkMode ? "라이트 모드로 전환" : "다크 모드로 전환"}
-            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-stone-200/80 dark:bg-stone-800 border border-stone-300 dark:border-stone-700 shadow-sm hover:shadow text-xs sm:text-sm font-semibold transition-all hover:scale-105 active:scale-95"
+            className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 dark:bg-stone-800 border border-stone-300 dark:border-stone-700 shadow-sm hover:shadow text-xs sm:text-sm font-semibold transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
           >
-            {isDarkMode ? (
-              <>
-                <span className="text-amber-400 text-base">☀️</span>
-                <span className="text-stone-200">라이트 모드</span>
-              </>
-            ) : (
-              <>
-                <span className="text-indigo-600 text-base">🌙</span>
-                <span className="text-stone-700">다크 모드</span>
-              </>
-            )}
+            <span
+              className={`inline-block transition-transform duration-500 text-base ${
+                isDarkMode ? "rotate-[360deg] scale-110" : "rotate-0 scale-100"
+              }`}
+            >
+              {isDarkMode ? "☀️" : "🌙"}
+            </span>
+            <span className="transition-opacity duration-300">
+              {isDarkMode ? "라이트 모드" : "다크 모드"}
+            </span>
           </button>
         </div>
 
