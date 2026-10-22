@@ -439,10 +439,12 @@ export default function Home() {
   return (
     <div
       className={`min-h-screen flex flex-col justify-between transition-colors duration-300 selection:bg-amber-200 ${
-        isDarkMode
-          ? "bg-[#181614] text-stone-100 dark"
-          : "bg-[#f3ede2] text-stone-800"
+        isDarkMode ? "dark dark-mode-active" : ""
       }`}
+      style={{
+        backgroundColor: isDarkMode ? "#181614" : "#f3ede2",
+        color: isDarkMode ? "#ededed" : "#292524",
+      }}
     >
       {/* 상단 네비게이션 & 컨트롤 영역 */}
       <header className="pt-8 pb-4 text-center px-4 relative max-w-7xl mx-auto w-full">
