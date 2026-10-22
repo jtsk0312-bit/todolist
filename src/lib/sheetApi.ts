@@ -8,17 +8,17 @@ export interface SheetTodoItem {
   order?: number;
 }
 
-const SCRIPT_URL = process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL;
+// 환경 변수가 등록되지 않았을 경우를 대비한 기본 URL fallback 설정
+const DEFAULT_SCRIPT_URL =
+  "https://script.google.com/macros/s/AKfycbzlQ2Dmw28Bb5t_l0NH4pnr8jEYtzjLMKfzHhSgE7YuhkrKuQ2sPXD-K454iuMkT_plyQ/exec";
+
+const SCRIPT_URL =
+  process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL || DEFAULT_SCRIPT_URL;
 
 /**
  * 구글 시트에서 전체 할 일 목록 가져오기 (Read)
  */
 export async function fetchTodosFromSheet(): Promise<SheetTodoItem[]> {
-  if (!SCRIPT_URL) {
-    console.warn("NEXT_PUBLIC_GOOGLE_SCRIPT_URL이 설정되지 않았습니다.");
-    return [];
-  }
-
   try {
     const res = await fetch(`${SCRIPT_URL}?t=${Date.now()}`, {
       method: "GET",
@@ -44,11 +44,6 @@ export async function fetchTodosFromSheet(): Promise<SheetTodoItem[]> {
  * GAS의 CORS 특성을 고려하여 text/plain 형식으로 POST 전송합니다.
  */
 export async function executeSheetAction(payload: any): Promise<boolean> {
-  if (!SCRIPT_URL) {
-    console.warn("NEXT_PUBLIC_GOOGLE_SCRIPT_URL이 설정되지 않았습니다.");
-    return false;
-  }
-
   try {
     const res = await fetch(SCRIPT_URL, {
       method: "POST",

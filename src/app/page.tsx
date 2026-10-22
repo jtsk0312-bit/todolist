@@ -355,6 +355,7 @@ export default function Home() {
     }
 
     setTodos((prev) => {
+      // 전체 todos 목록을 기준으로 인덱스 탐색
       const sourceIndex = prev.findIndex((item) => item.id === draggedId);
       const targetIndex = prev.findIndex((item) => item.id === targetId);
       if (sourceIndex === -1 || targetIndex === -1) return prev;
@@ -362,7 +363,7 @@ export default function Home() {
       const updated = [...prev];
       const [removed] = updated.splice(sourceIndex, 1);
       updated.splice(targetIndex, 0, removed);
-      
+
       const ordered = updated.map((item, idx) => ({ ...item, order: idx + 1 }));
       syncReorderToSheet(ordered);
       return ordered;
@@ -380,6 +381,20 @@ export default function Home() {
       startX: touch.clientX,
       startY: touch.clientY,
     };
+    setDraggedId(id);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!touchState.current.activeId) return;
+    const touch = e.touches[0];
+    const element = document.elementFromPoint(touch.clientX, touch.clientY);
+    const dropTarget = element?.closest("[data-todo-id]");
+    const targetId = dropTarget?.getAttribute("data-todo-id");
+    if (targetId && targetId !== touchState.current.activeId) {
+      setDragOverId(targetId);
+    } else {
+      setDragOverId(null);
+    }
   };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
@@ -602,6 +617,7 @@ export default function Home() {
                     onDragLeave={handleDragLeave}
                     onDrop={() => handleDrop(todo.id)}
                     onTouchStart={(e) => handleTouchStart(todo.id, e)}
+                    onTouchMove={handleTouchMove}
                     onTouchEnd={handleTouchEnd}
                     style={{
                       ["--postit-rot" as string]: `${todo.rotation}deg`,
