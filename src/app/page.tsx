@@ -449,13 +449,14 @@ export default function Home() {
       {/* 상단 네비게이션 & 컨트롤 영역 */}
       <header className="pt-8 pb-4 text-center px-4 relative max-w-7xl mx-auto w-full">
         {/* 우측 상단: 구글 시트 동기화 상태 & 다크/라이트 모드 버튼 */}
-        <div className="flex items-center justify-end gap-2 mb-3 sm:mb-0 sm:absolute sm:right-4 sm:top-8">
+        <div className="flex items-center justify-end gap-2 mb-3 sm:mb-0 sm:absolute sm:right-4 sm:top-8 z-30">
           {/* 구글 시트 동기화 새로고침 버튼 */}
           <button
+            type="button"
             onClick={loadTodosFromSheet}
             disabled={syncing}
             title="구글 시트와 동기화"
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/80 dark:bg-stone-800 border border-stone-300 dark:border-stone-700 shadow-xs hover:shadow text-xs font-semibold transition-all hover:scale-105 active:scale-95 disabled:opacity-50"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-white/80 dark:bg-stone-800 border border-stone-300 dark:border-stone-700 shadow-xs hover:shadow text-xs font-semibold transition-all hover:scale-105 active:scale-95 disabled:opacity-50 cursor-pointer select-none"
           >
             <span className={syncing ? "animate-spin" : ""}>🔄</span>
             <span className="hidden sm:inline">
@@ -465,18 +466,19 @@ export default function Home() {
 
           {/* 테마 스위치 */}
           <button
+            type="button"
             onClick={toggleTheme}
             aria-label={isDarkMode ? "라이트 모드로 전환" : "다크 모드로 전환"}
-            className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 dark:bg-stone-800 border border-stone-300 dark:border-stone-700 shadow-sm hover:shadow text-xs sm:text-sm font-semibold transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer"
+            className="relative z-30 flex items-center gap-2 px-4 py-2 rounded-full bg-white/95 dark:bg-stone-800 border border-stone-300 dark:border-stone-700 shadow-sm hover:shadow text-xs sm:text-sm font-semibold transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer select-none pointer-events-auto touch-manipulation"
           >
             <span
-              className={`inline-block transition-transform duration-500 text-base ${
+              className={`inline-block transition-transform duration-500 text-base pointer-events-none ${
                 isDarkMode ? "rotate-[360deg] scale-110" : "rotate-0 scale-100"
               }`}
             >
               {isDarkMode ? "☀️" : "🌙"}
             </span>
-            <span className="transition-opacity duration-300">
+            <span className="transition-opacity duration-300 pointer-events-none">
               {isDarkMode ? "라이트 모드" : "다크 모드"}
             </span>
           </button>
