@@ -147,7 +147,7 @@ export default function Home() {
     setSyncing(true);
     try {
       const sheetData = await fetchTodosFromSheet();
-      if (sheetData && sheetData.length > 0) {
+      if (Array.isArray(sheetData)) {
         const mapped: TodoItem[] = sheetData.map((item, idx) => ({
           id: String(item.timestamp || Date.now() + idx),
           content: item.content || "",

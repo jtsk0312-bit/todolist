@@ -122,9 +122,10 @@ function doPost(e) {
 
       const data = sheet.getDataRange().getValues();
       let rowIndex = -1;
+      const targetTs = String(timestamp).trim();
 
       for (let i = 1; i < data.length; i++) {
-        if (String(data[i][0]) === String(timestamp)) {
+        if (String(data[i][0]).trim() === targetTs) {
           rowIndex = i + 1; // 1-indexed
           break;
         }
@@ -134,12 +135,12 @@ function doPost(e) {
         return responseJSON({ success: false, error: "Item not found." });
       }
 
-      if (datetime !== undefined) sheet.getRange(rowIndex, 2).setValue(datetime);
-      if (category !== undefined) sheet.getRange(rowIndex, 3).setValue(category);
-      if (content !== undefined) sheet.getRange(rowIndex, 4).setValue(content);
-      if (color !== undefined) sheet.getRange(rowIndex, 5).setValue(color);
-      if (state !== undefined) sheet.getRange(rowIndex, 6).setValue(state);
-      if (order !== undefined) sheet.getRange(rowIndex, 7).setValue(order);
+      if (datetime !== undefined) sheet.getRange(rowIndex, 2).setValue(String(datetime));
+      if (category !== undefined) sheet.getRange(rowIndex, 3).setValue(String(category));
+      if (content !== undefined) sheet.getRange(rowIndex, 4).setValue(String(content));
+      if (color !== undefined) sheet.getRange(rowIndex, 5).setValue(String(color));
+      if (state !== undefined) sheet.getRange(rowIndex, 6).setValue(String(state));
+      if (order !== undefined) sheet.getRange(rowIndex, 7).setValue(Number(order));
 
       return responseJSON({ success: true, message: "Updated successfully" });
     }
@@ -153,9 +154,10 @@ function doPost(e) {
 
       const data = sheet.getDataRange().getValues();
       let rowIndex = -1;
+      const targetTs = String(timestamp).trim();
 
       for (let i = 1; i < data.length; i++) {
-        if (String(data[i][0]) === String(timestamp)) {
+        if (String(data[i][0]).trim() === targetTs) {
           rowIndex = i + 1;
           break;
         }
@@ -179,11 +181,11 @@ function doPost(e) {
       const data = sheet.getDataRange().getValues();
       const map = {};
       items.forEach(it => {
-        map[String(it.timestamp)] = it.order;
+        map[String(it.timestamp).trim()] = Number(it.order);
       });
 
       for (let i = 1; i < data.length; i++) {
-        const rowTimestamp = String(data[i][0]);
+        const rowTimestamp = String(data[i][0]).trim();
         if (map[rowTimestamp] !== undefined) {
           sheet.getRange(i + 1, 7).setValue(map[rowTimestamp]);
         }
